@@ -12,14 +12,14 @@ object DummyViewModel {
     private var currentUserName: String? = null
     private var currentSearchResult: Flow<PagingData<ModelClass>>? = null
 
-    fun searchRepos(username: String): Flow<PagingData<ModelClass>>? {
+    fun searchRepos(username: String) {
         val lastResult = currentSearchResult
-        if (username == currentUserName && lastResult != null) {
-            return lastResult
-        }
+//        if (username == currentUserName && lastResult != null) {
+//            return lastResult
+//        }
         currentUserName = username
         val newResult = repository?.fetchRepos(username)
-        currentSearchResult = newResult
-        return newResult
+//        currentSearchResult = newResult
+//        return newResult
     }
 }

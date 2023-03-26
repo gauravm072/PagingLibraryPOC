@@ -10,14 +10,11 @@ private const val FIRST_PAGE = 1
 class MyPagingSource(private val api: NetworkApi, private val userName: String) : PagingSource<Int, ModelClass>() {
 
     init {
-        Log.d("MyPagingSource ", ": init block is called")
+        Log.d("PAGINGGGG ", ": init block is called")
     }
     override fun getRefreshKey(state: PagingState<Int, ModelClass>): Int? {
         Log.d("PAGINGGGG: ", "getRefreshKey: ${state.anchorPosition}")
-        return state.anchorPosition?.let { anchorPosition ->
-            state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
-                ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
-        }
+       TODO()
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ModelClass> {
@@ -32,6 +29,7 @@ class MyPagingSource(private val api: NetworkApi, private val userName: String) 
                 nextKey = if (response.isEmpty()) null else page + 1
             )
         } catch (e: Exception) {
+            Log.d("PAGINGGGG: ", "load error : ${e.message}")
             LoadResult.Error(e)
         }
     }

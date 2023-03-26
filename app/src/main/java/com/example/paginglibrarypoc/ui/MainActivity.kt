@@ -1,5 +1,6 @@
 package com.example.paginglibrarypoc.ui
 
+import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -11,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.paginglibrarypoc.R
 import com.example.paginglibrarypoc.adapter.RepoListAdapter
 import com.example.paginglibrarypoc.adapter.RepoLoadStateAdapter
-import com.example.paginglibrarypoc.viewmodel.DummyViewModel
 import com.example.paginglibrarypoc.viewmodel.RepositoryViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -44,13 +44,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun search(username: String) {
         searchJob?.cancel()
-        searchJob = lifecycleScope.launch {
-            viewModel.searchRepos(username)?.collect{
-                Log.d("PAGINGGGG", "search: $it")
-                repoListAdapter.submitData(it)
+        viewModel.searchRepos(username)?.observe(this) { mData ->
+            lifecycleScope.launch {
+                repoListAdapter.submitData(mData)
             }
-//            DummyViewModel.searchRepos(username)
         }
     }
-
 }
